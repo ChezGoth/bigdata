@@ -2,6 +2,7 @@ package jsonConverter.bioreactions;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -65,6 +66,19 @@ public class Main {
 			metabolitemap.put((String)((JSONObject)metab.get(i)).get("id"),new Metabolite((JSONObject)metab.get(i)));
 		
 		}
+		FileWriter fw = new FileWriter("Subsysteme");
+		fw.write("Subsystem\tReaction\tMetabolite\tValue\n");
+		for (String key : subsystems.keySet()){
+			LinkedList<Reaction> reactions = subsystems.get(key);
+			for (Reaction currentreaction : reactions){
+				HashMap<String, Integer> metabols = currentreaction.getMetabolites();
+				for (String m : metabols.keySet()){
+					fw.write(key+"\t"+currentreaction.getName()+"\t"+m+"\t"+metabols.get(m)+"\n");
+				}
+			}
+			
+		}
+		fw.close();
 		
 		
 
